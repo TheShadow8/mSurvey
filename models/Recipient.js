@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Scheme } = mongoose;
+const { Schema } = mongoose;
 
 const recipientSchema = new Schema({
   email: String,
