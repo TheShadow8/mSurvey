@@ -1,32 +1,30 @@
-import { serializeUser, deserializeUser, use } from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import { model } from 'mongoose';
-import { googleClientID, googleClientSecret } from '../config/keys';
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const mongoose = require('mongoose');
+const keys = require('../config/keys');
 
-const User = model('users');
+const User = mongoose.model('users');
 
-serializeUser((user, done) => {
+passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-deserializeUser((id, done) => {
+passport.deserializeUser((id, done) => {
   User.findById(id).then(user => {
     done(null, user);
   });
 });
 
-use(
+passport.use(
   new GoogleStrategy(
     {
-      clientID: googleClientID,
-      clientSecret: googleClientSecret,
+      clientID: keys.googleClientID,
+      clientSecret: keys.googleClientSecret,
       callbackURL: '/auth/google/callback',
       proxy: true,
     },
-
     async (accessToken, refreshToken, profile, done) => {
       const existingUser = await User.findOne({ googleID: profile.id });
-
       if (existingUser) {
         return done(null, existingUser);
       }
