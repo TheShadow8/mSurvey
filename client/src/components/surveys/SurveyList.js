@@ -28,7 +28,15 @@ class SurveyList extends Component {
   }
 
   render() {
-    return <div>{this.renderSurveys()}</div>;
+    return (
+      <div>
+        <h5>
+          NOTE: This is a test mode, just input fake information to get a credit
+          !
+        </h5>
+        {this.renderSurveys()}
+      </div>
+    );
   }
 }
 
