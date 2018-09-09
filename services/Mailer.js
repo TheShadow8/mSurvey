@@ -13,7 +13,7 @@ class Mailer extends helper.Mail {
     this.recipients = this.formatAddresses(recipients);
 
     this.addContent(this.body);
-    this.clickTracking();
+    this.addClickTracking();
     this.addRecipients();
   }
 
